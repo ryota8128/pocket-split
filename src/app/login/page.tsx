@@ -17,7 +17,7 @@ export default function Login() {
     const router = useRouter()
     const login = () => {
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(() => {
                 router.push('/')
             })
             .catch((error) => {

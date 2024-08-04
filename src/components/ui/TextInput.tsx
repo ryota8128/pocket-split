@@ -20,7 +20,6 @@ export default function TextInput({
                                       className,
                                       onChange,
                                       type,
-                                      required = false
                                   }: Readonly<TextInputProps>) {
     return (
         <div className={`block ${className}`}>
