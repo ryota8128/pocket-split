@@ -8,14 +8,22 @@ interface TextInputProps {
     className?: string;
     type: "email" | "password" | "text";
     name?: string;
+    value: string;
 }
 
 
 export default function TextInput({
-                                      label, value, placeholder, name, className, onChange, type, required = false
-                                  }: TextInputProps) {
+                                      label,
+                                      value,
+                                      placeholder,
+                                      name,
+                                      className,
+                                      onChange,
+                                      type,
+                                      required = false
+                                  }: Readonly<TextInputProps>) {
     return (
-        <div className={className}>
+        <div className={`block ${className}`}>
             {label && (
                 <label htmlFor={name} className="">
                     {placeholder}
@@ -26,7 +34,8 @@ export default function TextInput({
                 name={name}
                 type={type}
                 autoComplete="current-password"
-                className={`h-12 block w-full rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 px-3`}
+                className={`h-12 block w-full rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 px-3`}
+                value={value}
                 onChange={onChange}
                 placeholder={placeholder}
             />
