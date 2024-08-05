@@ -9,6 +9,7 @@ interface TextInputProps {
     type: "email" | "password" | "text";
     name?: string;
     value: string;
+    errorMessage?: string;
 }
 
 
@@ -20,6 +21,7 @@ export default function TextInput({
                                       className,
                                       onChange,
                                       type,
+                                      errorMessage
                                   }: Readonly<TextInputProps>) {
     return (
         <div className={`block ${className}`}>
@@ -38,6 +40,10 @@ export default function TextInput({
                 onChange={onChange}
                 placeholder={placeholder}
             />
+            {errorMessage ? (
+                    <p className="text-red-500 text-xs mt-1 h-2">{errorMessage}</p>) :
+                (<div className='h-2'></div>)
+            }
         </div>
     );
 }

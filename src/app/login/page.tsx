@@ -3,11 +3,10 @@ import TextInput from "@/components/ui/TextInput";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import {useAtom} from "jotai";
-import {passwordAtom, emailAtom} from "@/jotai/atom/login-form";
+import {passwordAtom, emailAtom} from "@/jotai/atom/login-form.atom";
 import {signInWithEmailAndPassword} from "@firebase/auth";
-import {auth, db} from "@/lib/firebase/init";
+import {auth} from "@/lib/firebase/init";
 import {useRouter} from "next/navigation";
-import {collection, getDocs} from "@firebase/firestore";
 
 
 export default function Login() {
@@ -56,16 +55,6 @@ export default function Login() {
                     <Link href="/new-user"
                           className="text-blue-400 underline hover:text-blue-600 align-text-top ">新規会員登録はこちら</Link>
                 </div>
-
-
-                <Button text="ボタン" onClick={() => {
-
-                    const querySnapshot = getDocs(collection(db, "users"));
-                    querySnapshot.then(docs => docs.forEach((doc) => {
-                        console.log(`${doc.id} => ${doc.data()}`);
-                    })).catch(e => console.log(e))
-
-                }}/>
             </div>
         </div>
     )
