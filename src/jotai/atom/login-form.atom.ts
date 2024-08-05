@@ -1,8 +1,8 @@
-import {atom} from "jotai";
+import { atom } from 'jotai';
 
 
-export const emailAtom = atom<string>('')
+export const emailAtom = atom<string>('');
 
-export const passwordAtom = atom<string>('')
+export const passwordAtom = atom<string>('');
 
 

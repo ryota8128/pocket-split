@@ -1,19 +1,19 @@
-import {Metadata} from "next";
-import React from "react";
+import { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
-    title: "ログイン",
-    description: "ログインページ",
-}
+  title: 'ログイン',
+  description: 'ログインページ',
+};
 
 interface LayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export default function Layout({children}: LayoutProps) {
-    return (
-        <>
-            {children}
-        </>
-    );
+export default function Layout({ children }: Readonly<LayoutProps>) {
+  return (
+    <>
+      {children}
+    </>
+  );
 }
