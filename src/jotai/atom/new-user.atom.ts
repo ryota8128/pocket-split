@@ -54,9 +54,9 @@ export const useRegisterUserMutation = () => {
   const store = useStore();
   const { mutate } = useAtomValue(registerUserAtom);
 
-  return () => {
+  return async () => {
     const email = store.get(newUserEmailAtom);
     const password = store.get(newUserPasswordAtom);
-    mutate({ email, password });
+    await mutate({ email, password });
   };
 };

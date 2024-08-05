@@ -10,8 +10,11 @@ import {
   useRegisterUserMutation,
 } from '@/jotai/atom/new-user.atom';
 import { useAtom, useAtomValue } from 'jotai';
+import { useRouter } from 'next/navigation';
 
 export default function NewUser() {
+  const router = useRouter();
+
   const [email, setEmail] = useAtom(newUserEmailAtom);
   const [password, setPassword] = useAtom(newUserPasswordAtom);
   const [confirmPassword, setConfirmPassword] = useAtom(newUserPasswordConfirmAtom);
@@ -21,6 +24,13 @@ export default function NewUser() {
   const register = useRegisterUserMutation();
   const disableButton = useAtomValue(disableRegisterButtonAtom);
 
+  const onClick = () => {
+    register().then(() => {
+      router.push('/');
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
 
   return (
     <div className='max-w-2xl mx-auto mt-32'>
@@ -59,7 +69,7 @@ export default function NewUser() {
             setConfirmPassword(e.target.value);
           }}
         />
-        <Button text='登録' onClick={register} className='my-8' disabled={disableButton} />
+        <Button text='登録' onClick={onClick} className='my-8' disabled={disableButton} />
       </div>
     </div>
   );
