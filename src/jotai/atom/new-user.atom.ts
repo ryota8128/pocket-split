@@ -7,8 +7,10 @@ export const newUserEmailAtom = atom<string>('');
 export const newUserPasswordAtom = atom<string>('');
 export const newUserPasswordConfirmAtom = atom<string>('');
 
+
 export const passwordErrorMessageAtom = atom((get) => {
   const password = get(newUserPasswordAtom);
+  if (password === '') return undefined;
   return password.length >= 6 ? undefined : 'パスワードは6文字以上で入力してください';
 });
 export const passwordConfirmErrorMessageAtom = atom((get) => {
@@ -19,12 +21,13 @@ export const passwordConfirmErrorMessageAtom = atom((get) => {
 
 export const emailErrorMessageAtom = atom((get) => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (get(newUserEmailAtom) === '') return undefined;
-  return emailPattern.test(get(newUserEmailAtom)) ? undefined : 'メールアドレスが正しくありません';
+  const email = get(newUserEmailAtom);
+  if (email === '') return undefined;
+  return emailPattern.test(email) ? undefined : 'メールアドレスのフォーマットが正しくありません';
 });
 
 export const disableRegisterButtonAtom = atom((get) => {
-  return !!get(passwordConfirmErrorMessageAtom) || !!get(emailErrorMessageAtom) || !!get(passwordErrorMessageAtom) || get(newUserEmailAtom) === '';
+  return !!get(passwordConfirmErrorMessageAtom) || !!get(emailErrorMessageAtom) || !!get(passwordErrorMessageAtom) || get(newUserEmailAtom) === '' || get(newUserPasswordAtom) === '';
 });
 
 
