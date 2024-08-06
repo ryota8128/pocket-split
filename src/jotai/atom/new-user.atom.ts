@@ -1,7 +1,8 @@
 import { atom, useAtomValue, useStore } from 'jotai';
 import { atomWithMutation } from 'jotai-tanstack-query';
-import { createUserWithEmailAndPassword } from '@firebase/auth';
+import Cookies from 'js-cookie';
 import { auth } from '@/lib/firebase/init';
+import { createUserWithEmailAndPassword } from '@firebase/auth';
 
 export const newUserEmailAtom = atom<string>('');
 export const newUserPasswordAtom = atom<string>('');
@@ -34,24 +35,19 @@ export const disableRegisterButtonAtom = atom((get) => {
 interface RegisterUserProps {
   email: string;
   password: string;
-
 }
 
 export const registerUserAtom = atomWithMutation(() => ({
-  mutationKey: ['registerUser'],
-  mutationFn: async ({ email, password }: RegisterUserProps) => {
-    return await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('ユーザ登録完了', user.email);
-        return user.email;
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        throw new Error(errorMessage);
-      });
-  },
-}));
+    mutationKey: ['registerUser'],
+    mutationFn: async ({ email, password }: RegisterUserProps) => {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const idToken = await userCredential.user.getIdToken();
+      Cookies.set('idToken', idToken, { secure: true, sameSite: 'strict', expires: 1 });
+      console.log('ユーザ登録完了');
+      return userCredential.user.uid;
+    },
+  }))
+;
 
 export const useRegisterUserMutation = () => {
   const store = useStore();
@@ -60,6 +56,6 @@ export const useRegisterUserMutation = () => {
   return async () => {
     const email = store.get(newUserEmailAtom);
     const password = store.get(newUserPasswordAtom);
-    await mutate({ email, password });
+    return mutate({ email, password });
   };
 };

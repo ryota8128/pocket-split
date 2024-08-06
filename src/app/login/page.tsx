@@ -7,6 +7,7 @@ import { passwordAtom, emailAtom } from '@/jotai/atom/login-form.atom';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase/init';
+import Cookies from 'js-cookie';
 
 
 export default function Login() {
@@ -15,9 +16,13 @@ export default function Login() {
   const router = useRouter();
   const login = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
         console.log('login success');
         router.push('/');
+        return userCredential.user.getIdToken();
+      })
+      .then((idToken) => {
+        Cookies.set('idToken', idToken, { secure: true, sameSite: 'strict', expires: 1 });
       })
       .catch((error) => {
         const errorMessage = error.message;

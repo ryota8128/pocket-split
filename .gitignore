@@ -44,4 +44,4 @@ firestore.indexes.json
 firestore.rules
 .npmrc
 
-**/secret.json
+**/adminServiceKey.json
