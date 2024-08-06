@@ -6,18 +6,19 @@ import { auth } from '@/lib/firebase/init';
 import { useRouter } from 'next/navigation';
 
 import { useAtom } from 'jotai';
-import { userAtom } from '@/jotai/atom/user.atom';
+import { authAtom } from '@/jotai/atom/auth.atom';
 
 
 export default function Home() {
   const router = useRouter();
-  const [user, setUser] = useAtom(userAtom);
+  const [authUser, setAuthUser] = useAtom(authAtom);
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log('user logged in');
-      setUser(user);
+      console.log('authUser logged in');
+      setAuthUser(user);
     } else {
-      setUser(null);
+      console.log('authUser logged out');
+      setAuthUser(null);
       router.push('/login');
     }
   });
@@ -30,8 +31,8 @@ export default function Home() {
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       HOME
-      <p> user: {user?.email}</p>
-      <p>メール認証：{user?.emailVerified.toString()}</p>
+      <p> user: {authUser?.email}</p>
+      <p>メール認証：{authUser?.emailVerified.toString()}</p>
       {}
 
       <Button text={'email確認'} onClick={() => {
