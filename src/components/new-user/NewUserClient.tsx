@@ -11,7 +11,6 @@ export default function NewUserClient() {
   const router = useRouter();
   const [username, setUsername] = useState<string>('');
   return (
-
     <div className={'mx-auto max-w-2xl'}>
       <Header content={'あなたの表示名を入力してください'} type={'h1'} className={`font-bold mt-40 mb-10 `} />
       <TextInput type={'text'} value={username} onChange={(e) => setUsername(e.target.value)} />
