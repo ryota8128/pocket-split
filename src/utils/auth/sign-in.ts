@@ -10,7 +10,8 @@ export async function signIn(auth: Auth, email: string, password: string, router
       return userCredential.user.getIdToken();
     })
     .then((idToken) => {
-      Cookies.set('idToken', idToken, { secure: true, sameSite: 'strict', expires: 1 });
+      const secure = process.env.NODE_ENV === 'production';
+      Cookies.set('idToken', idToken, { secure, sameSite: 'strict', expires: 1 });
       console.log('idToken set');
     })
     .catch((error) => {
